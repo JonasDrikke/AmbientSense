@@ -1,0 +1,63 @@
+.scan-section {
+  margin-bottom: 20px;
+  
+  .btn-primary {
+    --background: #10b981; // Verde esmeralda
+    --border-radius: 12px;
+    font-weight: bold;
+    height: 50px;
+  }
+}
+
+.device-list {
+  background: transparent;
+
+  ion-list-header {
+    --color: #9ca3af;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  ion-item {
+    --background: #1f2937;
+    --color: #ffffff;
+    --border-radius: 15px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease-in-out;
+
+    ion-icon {
+      color: #10b981;
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    p {
+      color: #9ca3af;
+      font-size: 0.8rem;
+    }
+
+    &.selected {
+      --background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      transform: scale(1.02);
+
+      h2 { color: #10b981; }
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 50px;
+  color: #4b5563;
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 10px;
+  }
+
+  p { font-size: 0.9rem; }
+}

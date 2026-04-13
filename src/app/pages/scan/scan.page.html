@@ -1,0 +1,30 @@
+<app-header title="Escanear Sensores"></app-header>
+
+<ion-content class="ion-padding">
+  <div class="scan-section">
+    <ion-button expand="block" (click)="scan()" class="btn-primary">
+      <ion-icon name="bluetooth-outline" slot="start"></ion-icon>
+      Buscar Dispositivos
+    </ion-button>
+  </div>
+
+  <ion-list lines="none" class="device-list">
+    <ion-list-header>
+      <ion-label>Dispositivos Cercanos</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let d of devices" (click)="connect(d)" [class.selected]="isSelected(d)" button detail="false">
+      <ion-icon slot="start" [name]="isSelected(d) ? 'checkmark-circle' : 'radio-button-off-outline'"></ion-icon>
+      <ion-label>
+        <h2>{{ d.device?.name || d.localName || 'ESP32 Ambient' }}</h2>
+        <p>{{ d.device?.deviceId || d.deviceId }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success" *ngIf="isSelected(d)">CONECTADO</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="devices.length === 0" class="empty-state">
+    <ion-icon name="search-outline"></ion-icon>
+    <p>Presiona el botón para buscar sensores BLE</p>
+  </div>
+</ion-content>

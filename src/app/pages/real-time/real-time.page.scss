@@ -1,0 +1,29 @@
+.chart-container {
+  height: 300px;
+  background: #111827;
+  border-radius: 16px;
+  padding: 15px;
+  margin: 20px 0;
+  border: 1px solid #374151;
+}
+
+.data-box {
+  background: #1f2937;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #374151;
+
+  ion-icon { font-size: 32px; margin-bottom: 5px; }
+  .temp-icon { color: #10b981; }
+  .hum-icon { color: #3880ff; }
+  
+  h2 { font-weight: 800; margin: 0; color: white; }
+  small { color: #9ca3af; text-transform: uppercase; font-size: 0.7rem; }
+}
+
+.status-card {
+  text-align: center;
+  margin-bottom: 10px;
+  p { color: #9ca3af; font-size: 0.8rem; margin-top: 5px; }
+}

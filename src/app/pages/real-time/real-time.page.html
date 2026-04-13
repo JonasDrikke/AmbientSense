@@ -1,0 +1,35 @@
+<app-header title="Monitoreo en Tiempo Real"></app-header>
+
+<ion-content class="ion-padding">
+  <div class="status-card">
+  <ion-badge [color]="isConnected ? 'success' : 'danger'">
+    {{ isConnected ? 'Conectado a ESP32' : 'Dispositivo Desconectado' }}
+  </ion-badge>
+  
+  <p *ngIf="isConnected">Recibiendo datos vía BLE</p>
+  <p *ngIf="!isConnected" style="color: #ef4444;">Verifica la conexión en la pestaña de escaneo</p>
+</div>
+
+  <div class="chart-container">
+    <canvas id="realTimeChart"></canvas>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <div class="data-box">
+          <ion-icon name="thermometer-outline" class="temp-icon"></ion-icon>
+          <small>Temperatura</small>
+          <h2>{{ currentTemp }}°C</h2>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="data-box">
+          <ion-icon name="water-outline" class="hum-icon"></ion-icon>
+          <small>Humedad</small>
+          <h2>{{ currentHum }}%</h2>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

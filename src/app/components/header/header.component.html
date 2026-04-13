@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon slot="icon-only" name="person-circle-outline" class="user-btn"></ion-icon>
+      </ion-button>
+      
+<ion-popover [isOpen]="isPopoverOpen" [event]="popoverEvent" (didDismiss)="isPopoverOpen = false">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <h6 style="margin-top: 0; font-weight: bold; color: #10b981;">Configuración de Perfil</h6>
+      
+      <ion-item lines="full">
+        <ion-input type="password" label="Contraseña Actual" labelPlacement="stacked" 
+                   placeholder="********" [(ngModel)]="passActual"></ion-input>
+      </ion-item>
+      
+      <ion-item lines="full">
+        <ion-input type="password" label="Nueva Contraseña" labelPlacement="stacked" 
+                   placeholder="********" [(ngModel)]="passNueva"></ion-input>
+      </ion-item>
+
+      <ion-item lines="full" style="margin-bottom: 10px;">
+        <ion-input type="password" label="Confirmar Nueva" labelPlacement="stacked" 
+                   placeholder="********" [(ngModel)]="passConfirmar"></ion-input>
+      </ion-item>
+      
+      <ion-button expand="block" color="success" (click)="updatePassword()">
+        Guardar Cambios
+      </ion-button>
+      
+      <ion-button expand="block" fill="outline" color="danger" (click)="borrarCuenta()" style="margin-top: 10px;">
+        Eliminar Cuenta
+      </ion-button>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-modal [isOpen]="mostrarConfirmar" (didDismiss)="mostrarConfirmar = false" id="modal-confirm">
+  <ng-template>
+    <div style="padding: 20px; text-align: center; background: #1f2937; color: white;">
+      <ion-icon name="warning-outline" color="warning" style="font-size: 48px;"></ion-icon>
+      <h2 style="margin: 10px 0;">{{ tituloConfirmar }}</h2>
+      <p style="color: #9ca3af;">{{ mensajeConfirmar }}</p>
+      
+      <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+        <ion-button fill="clear" (click)="mostrarConfirmar = false" style="--color: white;">CANCELAR</ion-button>
+        <ion-button [color]="esBorrar ? 'danger' : 'success'" (click)="ejecutarAccion()">
+          {{ esBorrar ? 'BORRAR' : 'SALIR' }}
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<div id="toast" *ngIf="mostrarToast" [ngClass]="tipoToast">
+  {{ mensajeToast }}
+</div>

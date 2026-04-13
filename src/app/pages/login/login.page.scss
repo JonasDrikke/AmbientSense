@@ -1,0 +1,151 @@
+// --- PALETA DE COLORES VERDE (EMERALD) ---
+// Primario: #10b981 (Verde Esmeralda)
+// Secundario/Brillo: #34d399 (Verde Menta)
+// Acento Dark: #064e3b
+
+ion-content {
+  --background: #f3f4f6; // Fondo gris muy claro para resaltar el verde
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.topbar {
+  background: #064e3b; // Verde muy oscuro casi negro
+  color: #10b981; // Verde esmeralda brillante
+  text-align: center;
+  ion-title { font-weight: bold; letter-spacing: 1px; }
+}
+
+// Estilo de Tarjeta para el Formulario
+.form-container {
+  background: #ffffff !important;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  margin: 20px auto;
+  max-width: 500px;
+  padding: 10px;
+  animation: fadeCard 0.5s ease;
+
+  ion-list {
+    background: transparent !important;
+    padding: 0;
+  }
+}
+
+.controles {
+  text-align: center;
+  padding: 10px;
+  h2 { color: #10b981 !important; } // Título en verde
+}
+
+// Botón Principal Estilo Robusto
+.btn-principal {
+  --background: #10b981; 
+  --color: white;
+  --border-radius: 10px;
+  transition: 0.3s;
+  font-weight: bold;
+  margin-top: 15px;
+  
+  &:hover {
+    animation: pulse-verde 1s;
+    --background: #059669; // Verde un poco más oscuro al hover
+  }
+}
+
+// Panel Estilo Dark (Para resultados de sensores/historial)
+#panel {
+  background: #111827; // Mantiene el tono dark para contraste
+  padding: 20px;
+  border-radius: 20px;
+  color: white;
+  max-width: 500px;
+  margin: 20px auto;
+  border-left: 5px solid #10b981; // Borde verde
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+  .total { color: #34d399; margin-top: 0; font-size: 1.2rem; }
+  p { 
+    font-size: 14px; 
+    color: #d1d5db; 
+    margin: 10px 0; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    padding-bottom: 5px; 
+  }
+}
+
+// Inputs Estilo "Menta"
+.input-item {
+  --background: #f0fdf4 !important; // Fondo verde pistacho muy tenue
+  --color: #064e3b !important;
+  border: 1px solid #d1fae5; 
+  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 7px;
+  
+  ion-input {
+    color: #059669; 
+    --placeholder-color: #6b7280;
+    --background: transparent !important;
+  }
+
+  ion-icon[slot="start"] {
+    color: #10b981 !important; // Iconos verdes
+    margin-right: 12px;
+    margin-left: 8px;
+    font-size: 20px;
+    opacity: 1 !important;
+  }
+}
+
+.checkbox-item {
+  --background: transparent !important;
+  color: #10b981 !important; 
+  margin-top: 10px;
+  
+  ion-checkbox {
+    --checkbox-background-checked: #10b981;
+    --border-color: #10b981;
+  }
+}
+
+.terminos-link {
+  color: #10b981 !important;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+// Botón de cambio de modo (Login/Registro) con Brillo Verde
+.btn-cambio-modo {
+  --color: #10b981 !important;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.05);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    color: #065f46 !important;
+    transform: scale(1.02);
+  }
+}
+
+.btn-eye {
+  --color: #10b981 !important;
+  --background: transparent !important;
+}
+
+// --- ANIMACIONES ACTUALIZADAS ---
+@keyframes pulse-verde {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes fadeCard {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.usoapp {
+  color: #065f46; // Verde oscuro para el título del modal
+}

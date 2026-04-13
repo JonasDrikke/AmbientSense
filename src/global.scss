@@ -35,3 +35,89 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+/* Estilos del Toast (Tu diseño original) */
+#toast {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  z-index: 9999 !important; /* Muy alto para que esté encima de todo */
+  pointer-events: none;
+}
+
+.toast-msg {
+  background: #111827;
+  color: white;
+  padding: 12px 20px;
+  border-left: 5px solid #2563eb;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  /* Tu animación original */
+  animation: fadeInOut 3s forwards;
+  /* Asegura que el texto no se corte */
+  white-space: nowrap; 
+  min-width: 200px;
+}
+
+/* Variaciones de color */
+.toast-success { border-left-color: #22c55e; }
+.toast-error { border-left-color: #ef4444; }
+.toast-warning { border-left-color: #e4a010; }
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(50px); }
+  10% { opacity: 1; transform: translateX(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(50px); }
+}
+
+/* Estilo para el Modal de Confirmación */
+#modal-confirm {
+  --height: fit-content;
+  --width: 90%;
+  --max-width: 400px;
+  --border-radius: 20px;
+  --box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+  &::part(content) {
+    border-radius: 20px;
+  }
+}
+
+.confirm-container {
+  padding: 25px;
+  text-align: center;
+  background: #ffffff;
+  
+  .confirm-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+  }
+
+  h2 {
+    color: #111827;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #6b7280;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .confirm-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    ion-button {
+      flex: 1;
+      font-weight: bold;
+      --border-radius: 10px;
+    }
+  }
+}

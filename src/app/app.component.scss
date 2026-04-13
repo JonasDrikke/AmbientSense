@@ -1,0 +1,81 @@
+/* Fondo general del menú */
+ion-menu {
+  --background: #1f2937; // Gris oscuro idéntico al header
+  --color: #ffffff;
+}
+
+/* Encabezado del menú (Donde dice AmbientSense) */
+ion-menu ion-header ion-toolbar {
+  --background: #111827; // Un tono un poco más oscuro para resaltar
+  --color: #10b981;      // Verde esmeralda
+  --border-style: none;
+  text-align: center;
+}
+
+ion-menu ion-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.2rem;
+}
+
+/* Estilo de los encabezados de lista (Panel de Control, etc.) */
+ion-list-header {
+  --color: #10b981;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-top: 15px;
+  background: transparent;
+}
+
+/* Estilo de los ítems del menú */
+ion-item {
+  --background: transparent;
+  --color: #9ca3af; // Gris claro para ítems no seleccionados
+  --border-radius: 12px;
+  margin: 4px 10px;
+  transition: all 0.3s ease;
+
+  /* Iconos del menú */
+  ion-icon {
+    color: #10b981; // Iconos siempre en verde
+    font-size: 22px;
+    margin-right: 15px;
+  }
+
+  /* Efecto al pasar el mouse o estar seleccionado */
+  &.selected {
+    --background: rgba(16, 185, 129, 0.1); // Fondo verde muy sutil
+    --color: #ffffff;
+    font-weight: 600;
+    
+    ion-icon {
+      filter: drop-shadow(0 0 5px #10b981);
+    }
+  }
+
+  &:hover {
+    --background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Botón especial de Cerrar Sesión */
+.logout-item {
+  margin-top: 30px;
+  --color: #ef4444 !important; // Rojo para advertencia
+  
+  ion-icon {
+    color: #ef4444 !important;
+  }
+  
+  &:hover {
+    --background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+/* Ajuste del scrollbar para que sea discreto */
+ion-content {
+  --background: #1f2937;
+}
