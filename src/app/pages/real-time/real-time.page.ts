@@ -5,7 +5,7 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
 import { BleService } from '../../services/ble';
 import { Chart } from 'chart.js/auto';
 import { Subscription } from 'rxjs';
-
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-real-time',
   templateUrl: './real-time.page.html',
@@ -21,7 +21,7 @@ export class RealTimePage implements OnInit, OnDestroy {
   isConnected: boolean = false;
   private statusSub!: Subscription;
 
-  constructor(private ble: BleService) {}
+  constructor(private ble: BleService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.createChart();
@@ -29,6 +29,7 @@ export class RealTimePage implements OnInit, OnDestroy {
     // Escuchar el estado de la conexión
     this.statusSub = this.ble.isConnected$.subscribe(status => {
       this.isConnected = status;
+      this.cdr.detectChanges();
     });
 
     // Nos suscribimos al flujo de datos del servicio
@@ -36,6 +37,8 @@ export class RealTimePage implements OnInit, OnDestroy {
       this.currentTemp = data.temp;
       this.currentHum = data.hum;
       this.updateChart(data.temp, data.hum);
+      this.cdr.detectChanges();
+      
     });
   }
 

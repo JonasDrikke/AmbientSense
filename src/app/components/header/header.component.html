@@ -10,34 +10,53 @@
       <ion-button (click)="presentPopover($event)">
         <ion-icon slot="icon-only" name="person-circle-outline" class="user-btn"></ion-icon>
       </ion-button>
-      
-<ion-popover [isOpen]="isPopoverOpen" [event]="popoverEvent" (didDismiss)="isPopoverOpen = false">
+    
+      <ion-popover [isOpen]="isPopoverOpen" [event]="popoverEvent" (didDismiss)="isPopoverOpen = false">
   <ng-template>
-    <ion-content class="ion-padding">
-      <h6 style="margin-top: 0; font-weight: bold; color: #10b981;">Configuración de Perfil</h6>
+    <ion-content class="ion-padding popover-dark">
+      <h6 class="perfil-title">Perfil</h6>
       
-      <ion-item lines="full">
-        <ion-input type="password" label="Contraseña Actual" labelPlacement="stacked" 
-                   placeholder="********" [(ngModel)]="passActual"></ion-input>
-      </ion-item>
-      
-      <ion-item lines="full">
-        <ion-input type="password" label="Nueva Contraseña" labelPlacement="stacked" 
-                   placeholder="********" [(ngModel)]="passNueva"></ion-input>
-      </ion-item>
+      <ion-list lines="none" class="transparent-list">
+        <div class="user-info-section">
+          <ion-icon name="person-circle-outline" color="primary"></ion-icon>
+          <div class="user-details">
+            <small>Sesión iniciada como:</small>
+            <p><strong>{{ userEmail }}</strong></p>
+          </div>
+        </div>
 
-      <ion-item lines="full" style="margin-bottom: 10px;">
-        <ion-input type="password" label="Confirmar Nueva" labelPlacement="stacked" 
-                   placeholder="********" [(ngModel)]="passConfirmar"></ion-input>
-      </ion-item>
-      
-      <ion-button expand="block" color="success" (click)="updatePassword()">
-        Guardar Cambios
-      </ion-button>
-      
-      <ion-button expand="block" fill="outline" color="danger" (click)="borrarCuenta()" style="margin-top: 10px;">
-        Eliminar Cuenta
-      </ion-button>
+        <div class="menu-spacer"></div> <ion-item button (click)="togglePasswordMenu()" detail="false" class="menu-item-custom">
+          <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Cambiar contraseña</ion-label>
+          <ion-icon 
+            [name]="isPasswordFieldsVisible ? 'chevron-up-outline' : 'chevron-down-outline'" 
+            slot="end" color="medium">
+          </ion-icon>
+        </ion-item>
+
+        <div *ngIf="isPasswordFieldsVisible" class="password-dropdown-content">
+          <ion-item class="input-item">
+            <ion-input label="Actual" labelPlacement="stacked" type="password" [(ngModel)]="passActual"></ion-input>
+          </ion-item>
+          <ion-item class="input-item">
+            <ion-input label="Nueva" labelPlacement="stacked" type="password" [(ngModel)]="passNueva"></ion-input>
+          </ion-item>
+          <ion-item class="input-item">
+            <ion-input label="Confirmar" labelPlacement="stacked" type="password" [(ngModel)]="passConfirmar"></ion-input>
+          </ion-item>
+          <ion-button expand="block" color="success" fill="solid" (click)="updatePassword()" class="btn-update">
+            Actualizar Contraseña
+          </ion-button>
+        </div>
+
+        <div class="menu-spacer"></div> <div class="delete-container">
+          <ion-button expand="block" fill="outline" color="danger" (click)="borrarCuenta()" class="btn-delete-ghost">
+            <ion-icon name="warning-outline" slot="start"></ion-icon>
+            Eliminar cuenta
+          </ion-button>
+        </div>
+
+      </ion-list>
     </ion-content>
   </ng-template>
 </ion-popover>
@@ -58,7 +77,3 @@
     </div>
   </ng-template>
 </ion-modal>
-
-<div id="toast" *ngIf="mostrarToast" [ngClass]="tipoToast">
-  {{ mensajeToast }}
-</div>

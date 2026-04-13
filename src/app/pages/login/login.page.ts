@@ -13,6 +13,7 @@ import { mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline } from 'ionic
 // IMPORTANTE: Asegúrate de que las rutas de estos archivos sean correctas
 import { User } from 'src/app/services/user'; 
 import { DatabaseService } from 'src/app/services/database';
+import { Toast } from 'src/app/services/toast';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +45,8 @@ export class LoginPage implements OnInit {
     private menuCtrl: MenuController, 
     private router: Router, 
     private userService: User, // Inyectamos el servicio de sesión
-    private database: DatabaseService // Inyectamos la base de datos
+    private database: DatabaseService, // Inyectamos la base de datos
+    private Toast: Toast
   ) {
     addIcons({ mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline });
   }
@@ -69,10 +71,10 @@ export class LoginPage implements OnInit {
     if (this.esRegistro) {
       try {
         await this.database.registrarUsuario(this.usuario.email, this.usuario.password);
-        this.lanzarToast('¡Registro exitoso! Ya puedes iniciar sesión', 'success');
+        this.Toast.mostrarToast('¡Registro exitoso! Ya puedes iniciar sesión', 'success');
         this.cambiarModo();
       } catch (e) {
-        this.lanzarToast('Error: El correo ya existe o error en BD', 'error');
+        this.Toast.mostrarToast('Error: El correo ya existe o error en BD', 'error');
         console.error(e);
       }
     } else {
@@ -81,13 +83,13 @@ export class LoginPage implements OnInit {
         if (user) {
           localStorage.setItem('userEmail', this.usuario.email);
           this.userService.login(); // Marcamos la sesión como activa
-          this.lanzarToast(`Bienvenido`, 'success');
+          this.Toast.mostrarToast(`Bienvenido`, 'success');
           this.router.navigate(['/scan']); // Navegamos a la página de dispositivos
         } else {
-          this.lanzarToast('Correo o contraseña incorrectos', 'error');
+          this.Toast.mostrarToast('Correo o contraseña incorrectos', 'error');
         }
       } catch (e) {
-        this.lanzarToast('Error al conectar con la base de datos', 'error');
+        this.Toast.mostrarToast('Error al conectar con la base de datos', 'error');
       }
     }
   }
@@ -100,12 +102,5 @@ export class LoginPage implements OnInit {
 
   togglePasswordMode() {
     this.tipoPassword = this.tipoPassword === 'password' ? 'text' : 'password';
-  }
-
-  lanzarToast(mensaje: string, tipo: 'success' | 'error' | 'warning') {
-    this.mensajeToast = mensaje;
-    this.tipoToast = `toast-${tipo}`;
-    this.mostrarToast = true;
-    setTimeout(() => { this.mostrarToast = false; }, 3000);
   }
 }

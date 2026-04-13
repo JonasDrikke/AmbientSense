@@ -46,26 +46,14 @@
   pointer-events: none;
 }
 
-.toast-msg {
-  background: #111827;
-  color: white;
-  padding: 12px 20px;
-  border-left: 5px solid #2563eb;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.ambient-toast {
+  --border-radius: 12px;
+  --box-shadow: 0 8px 16px rgba(0,0,0,0.5);
   font-weight: 600;
-  /* Tu animación original */
-  animation: fadeInOut 3s forwards;
-  /* Asegura que el texto no se corte */
-  white-space: nowrap; 
-  min-width: 200px;
+  
+  /* Ajuste de posición para que no choque con la notch del celular */
+  margin-top: 10px; 
 }
-
-/* Variaciones de color */
-.toast-success { border-left-color: #22c55e; }
-.toast-error { border-left-color: #ef4444; }
-.toast-warning { border-left-color: #e4a010; }
 
 @keyframes fadeInOut {
   0% { opacity: 0; transform: translateX(50px); }

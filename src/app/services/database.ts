@@ -67,9 +67,16 @@ async validarUsuario(email: string, pass: string) {
   return res.values && res.values.length > 0 ? res.values[0] : null;
 }
   async actualizarPassword(email: string, nuevaPass: string) {
-    const sql = 'UPDATE usuarios SET password = ? WHERE email = ?';
-    return await this.db.run(sql, [nuevaPass, email]);
+  // Si usas el navegador con el bridge de Android activo
+  if (Capacitor.getPlatform() === 'web' && !this.db) { 
+    localStorage.setItem(`user_${email}`, nuevaPass);
+    return true;
   }
+
+  // La sentencia CORRECTA es UPDATE
+  const sql = 'UPDATE usuarios SET password = ? WHERE email = ?';
+  return await this.db.run(sql, [nuevaPass, email]);
+}
 
   async borrarUsuario(email: string) {
     const sql = 'DELETE FROM usuarios WHERE email = ?';
@@ -82,4 +89,26 @@ async validarUsuario(email: string, pass: string) {
     const sql = 'INSERT INTO mediciones (tipo, valor) VALUES (?, ?)';
     return await this.db.run(sql, [tipo, valor]);
   }
+
+// Para las páginas de Historial
+async getHistoryByType(type: 'temp' | 'hum') {
+  // Retornamos los últimos 50 registros del tipo solicitado
+  const res = await this.db.query(
+    `SELECT * FROM mediciones WHERE tipo = ? ORDER BY fecha DESC LIMIT 50`,
+    [type]
+  );
+  return res.values || [];
+}
+
+// Para las futuras páginas de Estadísticas (un adelanto)
+async getStatsByType(type: 'temp' | 'hum') {
+
+  const res = await this.db.query(
+    `SELECT AVG(valor) as promedio, MAX(valor) as maximo, MIN(valor) as minimo 
+     FROM mediciones WHERE tipo = ?`,
+    [type]
+  );
+  return res.values?.[0];
+}
+
 }

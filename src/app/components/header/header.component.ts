@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { 
   IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, 
-  IonButton, IonIcon, IonPopover, IonContent, IonItem, IonInput, IonModal 
+  IonButton, IonIcon, IonPopover, IonContent, IonItem, IonInput, IonModal, IonLabel, IonList
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logOutOutline, personCircleOutline, warningOutline } from 'ionicons/icons';
+import { logOutOutline, personCircleOutline, warningOutline, chevronDownOutline, chevronUpOutline, mailOutline, lockClosedOutline} from 'ionicons/icons';
 import { DatabaseService } from '../../services/database'; // Ajusta la ruta
 import { User } from '../../services/user'; // Ajusta la ruta
-
+import { Toast } from 'src/app/services/toast';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -19,7 +19,7 @@ import { User } from '../../services/user'; // Ajusta la ruta
   imports: [
     CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, 
     IonButtons, IonMenuButton, IonButton, IonIcon, IonPopover, 
-    IonContent, IonItem, IonInput, IonModal
+    IonContent, IonItem, IonInput, IonModal, IonLabel, IonList
   ]
 })
 export class HeaderComponent {
@@ -28,52 +28,66 @@ export class HeaderComponent {
   isPopoverOpen = false;
   popoverEvent: any = null;
   passActual = ''; passNueva = ''; passConfirmar = '';
-  mostrarToast = false; mensajeToast = ''; tipoToast = '';
   mostrarConfirmar = false; tituloConfirmar = ''; mensajeConfirmar = ''; esBorrar = false;
-
+  userEmail: string | null = '';
+  isPasswordFieldsVisible = false;
+  
   constructor(
     private router: Router, 
     private database: DatabaseService, 
-    private userService: User
+    private userService: User,
+    private Toast: Toast
   ) {
-    addIcons({ personCircleOutline, logOutOutline, warningOutline });
+    addIcons({ personCircleOutline, logOutOutline, warningOutline, chevronDownOutline, chevronUpOutline, mailOutline, lockClosedOutline });
   }
-
   presentPopover(e: Event) {
+    this.userEmail = localStorage.getItem('userEmail');
+    this.isPasswordFieldsVisible = false;
     this.popoverEvent = e;
     this.isPopoverOpen = true;
   }
 
+  togglePasswordMenu() {
+    this.isPasswordFieldsVisible = !this.isPasswordFieldsVisible;
+  }
+
   async updatePassword() {
+  try {
     const email = localStorage.getItem('userEmail');
-    if (!email) return;
+    if (!email) {
+      this.Toast.mostrarToast('Sesión no encontrada', 'error');
+      return;
+    }
 
-    // Usamos tu servicio de base de datos
+    // 1. Validar que la contraseña actual sea la correcta
     const user = await this.database.validarUsuario(email, this.passActual);
-    
     if (!user) {
-      this.lanzarToast('Contraseña actual incorrecta', 'error');
+      this.Toast.mostrarToast('La contraseña actual es incorrecta', 'error');
       return;
     }
 
+    // 2. Validar coincidencia de la nueva
     if (this.passNueva.length < 4 || this.passNueva !== this.passConfirmar) {
-      this.lanzarToast('Las contraseñas no coinciden o son cortas', 'warning');
+      this.Toast.mostrarToast('Las contraseñas no coinciden o son muy cortas', 'warning');
       return;
     }
 
+    // 3. Ejecutar actualización
     await this.database.actualizarPassword(email, this.passNueva);
-    this.lanzarToast('¡Contraseña actualizada!', 'success');
-    this.isPopoverOpen = false;
+    
+    // Si llegamos aquí, todo salió bien
+    this.Toast.mostrarToast('¡Contraseña actualizada con éxito!', 'success');
     this.limpiarCampos();
-  }
+    
+    setTimeout(() => {
+      this.isPopoverOpen = false;
+    }, 1500);
 
-  logout() {
-    this.esBorrar = false;
-    this.tituloConfirmar = 'Cerrar Sesión';
-    this.mensajeConfirmar = '¿Quieres salir de AmbientSense?';
-    this.mostrarConfirmar = true;
+  } catch (error) {
+    console.error('Error capturado:', error);
+    this.Toast.mostrarToast('Error en la base de datos', 'error');
   }
-
+}
   borrarCuenta() {
     this.esBorrar = true;
     this.tituloConfirmar = 'Borrar Cuenta';
@@ -83,22 +97,23 @@ export class HeaderComponent {
 
   async ejecutarAccion() {
     this.mostrarConfirmar = false;
+    this.isPopoverOpen = false;
     const email = localStorage.getItem('userEmail');
-
     if (this.esBorrar && email) {
-      await this.database.borrarUsuario(email);
-      localStorage.removeItem('userEmail');
+      try {
+        // 1. Borrar de la base de datos SQLite
+        await this.database.borrarUsuario(email);
+        // 2. Limpieza de seguridad adicional para modo Web
+        localStorage.removeItem(`user_${email}`); 
+        localStorage.removeItem('userEmail');
+        console.log('Cuenta eliminada con éxito');
+      } catch (error) {
+        console.error('Error al borrar cuenta:', error);
+      }
     }
-    
+    // 3. Cerrar la sesión en el servicio de usuario y redirigir
     this.userService.logout();
     this.router.navigate(['/login']);
-  }
-
-  lanzarToast(mensaje: string, tipo: 'success' | 'error' | 'warning') {
-    this.mensajeToast = mensaje;
-    this.tipoToast = `toast-${tipo}`;
-    this.mostrarToast = true;
-    setTimeout(() => this.mostrarToast = false, 3000);
   }
 
   private limpiarCampos() {

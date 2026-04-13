@@ -32,18 +32,102 @@ ion-menu-button {
 /* 5. Toast flotante */
 #toast {
   position: fixed;
-  top: 85px;
+  top: 100px; /* Un poco más abajo del header */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
-  padding: 10px 20px;
-  border-radius: 25px;
+  z-index: 99999 !important; /* ¡MUY IMPORTANTE! Más de 20000 para superar al popover */
+  padding: 12px 20px;
+  border-radius: 12px;
   color: white;
-  font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-  backdrop-filter: blur(5px);
+  font-weight: bold;
+  min-width: 250px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
   
-  &.toast-success { background: rgba(16, 185, 129, 0.9); }
-  &.toast-error { background: rgba(239, 68, 68, 0.9); }
-  &.toast-warning { background: rgba(245, 158, 11, 0.9); }
+  &.toast-success { background: #10b981; }
+  &.toast-error { background: #ef4444; }
+  &.toast-warning { background: #f59e0b; }
+}
+.custom-toast-style {
+  --background: #1f2937;
+  --color: white;
+  --box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  font-weight: bold;
+}
+
+/* Estilos para el contenido del Popover */
+.popover-dark {
+  --background: #1f2937;
+  color: white;
+}
+
+.perfil-title {
+  margin: 0 0 15px 5px;
+  font-weight: bold;
+  color: #10b981;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.transparent-list {
+  background: transparent !important;
+  padding: 0;
+}
+
+/* Espaciador personalizado */
+.menu-spacer {
+  height: 20px; 
+}
+
+/* Info de usuario */
+.user-info-section {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  gap: 12px;
+  ion-icon { font-size: 32px; }
+  .user-details {
+    small { color: #9ca3af; font-size: 0.7rem; }
+    p { margin: 0; font-size: 0.85rem; }
+  }
+}
+
+/* Item de menú (Cambiar pass) */
+.menu-item-custom {
+  --background: rgba(255,255,255,0.05);
+  --border-radius: 10px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+/* Contenedor de inputs */
+.password-dropdown-content {
+  margin-top: 10px;
+  padding: 5px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  
+  .input-item {
+    --background: transparent;
+    --color: white;
+    font-size: 0.85rem;
+  }
+  .btn-update {
+    margin-top: 10px;
+    --border-radius: 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Botón Eliminar Estilo Ghost */
+.delete-container {
+  padding: 0 5px;
+  
+  .btn-delete-ghost {
+    --border-width: 2px;
+    --border-radius: 10px;
+    font-weight: bold;
+    text-transform: none;
+    height: 45px;
+  }
 }

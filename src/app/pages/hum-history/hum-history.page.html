@@ -1,13 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>hum-history</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Historial Humedad"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">hum-history</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="cargarHistorial()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="registros.length === 0" class="ion-text-center" style="margin-top: 50px;">
+    <ion-icon name="water-outline" style="font-size: 64px; color: #374151;"></ion-icon>
+    <p style="color: #9ca3af;">No hay registros de humedad aún.</p>
+  </div>
+
+  <ion-list lines="none">
+    <ion-card *ngFor="let item of registros" class="history-card">
+      <ion-item>
+        <ion-icon 
+          slot="start" 
+          name="water" 
+          [color]="getHumColor(item.valor)">
+        </ion-icon>
+        <ion-label>
+          <h2 style="font-weight: bold; font-size: 1.2rem;">{{ item.valor }}%</h2>
+          <p>{{ item.fecha | date:'dd/MM/yyyy, hh:mm:ss a' }}</p>
+        </ion-label>
+        <ion-note slot="end" color="medium">ID: #{{ item.id }}</ion-note>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 </ion-content>

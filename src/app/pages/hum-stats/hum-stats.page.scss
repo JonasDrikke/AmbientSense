@@ -1,0 +1,41 @@
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+
+  .main-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 8px solid #10b981; // Verde para temp
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    background: rgba(16, 185, 129, 0.05);
+
+    h1 { font-size: 3rem; font-weight: bold; margin: 0; color: #f3f4f6; }
+    small { text-transform: uppercase; color: #9ca3af; letter-spacing: 1px; }
+  }
+
+  &.hum-theme .main-circle {
+    border-color: #3b82f6; // Azul para hum
+    background: rgba(59, 130, 246, 0.05);
+  }
+}
+
+.mini-card {
+  background: #1f2937;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  
+  ion-icon { font-size: 1.5rem; margin-bottom: 5px; }
+  p { margin: 0; color: #9ca3af; font-size: 0.8rem; }
+  h3 { margin: 5px 0 0; color: #f3f4f6; font-weight: bold; }
+
+  &.max { border-bottom: 3px solid #ef4444; ion-icon { color: #ef4444; } }
+  &.min { border-bottom: 3px solid #3b82f6; ion-icon { color: #3b82f6; } }
+}
